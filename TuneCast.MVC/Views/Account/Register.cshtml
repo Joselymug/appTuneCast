@@ -34,13 +34,7 @@
                         </div>
                     </form>
 
-                    @if (!string.IsNullOrEmpty(ViewData["SuccessMessage"] as string))
-                    {
-                        <div class="alert alert-success mt-3">
-                            @ViewData["SuccessMessage"]
-                        </div>
-                    }
-                    @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+                    @if (ViewData["ErrorMessage"] != null)
                     {
                         <div class="alert alert-danger mt-3">
                             @ViewData["ErrorMessage"]

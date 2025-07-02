@@ -11,6 +11,11 @@
                     <h3><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h3>
                 </div>
                 <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                    }
+
                     <form asp-action="Login" method="post">
                         <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
 
@@ -36,12 +41,11 @@
                         </div>
                     </form>
 
-                    <!-- Enlace para redirigir al registro -->
                     <div class="text-center mt-3">
                         <p>¿No tienes cuenta? <a href="@Url.Action("Register", "Account")">Regístrate aquí</a></p>
                     </div>
 
-                    @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+                    @if (ViewData["ErrorMessage"] != null)
                     {
                         <div class="alert alert-danger mt-3">
                             @ViewData["ErrorMessage"]
