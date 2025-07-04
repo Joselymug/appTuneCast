@@ -1,0 +1,13 @@
+﻿@model TuneCastModelo.Cancion
+
+<div class="container">
+    <h2>Reproduciendo: @Model.Titulo</h2>
+    <p><strong>Artista:</strong> @Model.Artista</p>
+    <p><strong>Género:</strong> @Model.Genero</p>
+
+    <audio controls>
+        <source src="@Model.RutaArchivo" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+</div>
+

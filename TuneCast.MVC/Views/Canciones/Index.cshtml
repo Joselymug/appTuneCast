@@ -81,3 +81,20 @@
 }
     </tbody>
 </table>
+
+
+
+
+@* @model List<TuneCastModelo.Cancion>
+
+<div class="container">
+    <h2>Canciones Disponibles</h2>
+    <ul>
+        @foreach (var cancion in Model)
+        {
+            <li>
+                <a href="@Url.Action("Reproducir", "Reproduccion", new { id = cancion.Id })">@cancion.Titulo</a>
+            </li>
+        }
+    </ul>
+</div> *@

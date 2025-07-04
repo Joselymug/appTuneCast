@@ -58,6 +58,10 @@
                 <span asp-validation-for="UsuarioId" class="text-danger"></span>
             </div>
             <div class="form-group">
+            <label for="Archivo">Archivo de Música</label>
+            <input type="file" name="archivo" class="form-control" accept=".mp3,.wav,.ogg" required />
+        </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -71,3 +75,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
