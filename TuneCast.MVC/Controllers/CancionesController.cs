@@ -70,40 +70,61 @@ namespace TuneCast.MVC.Controllers
                 return View(data);
             }
         }
+        // GET: Canciones/Reproducir/5
+        public IActionResult Reproducir(int id)
+        {
+            var cancion = Crud<Cancion>.GetById(id);
+
+            if (cancion == null)
+                return NotFound();
+
+            // Aumentar número de reproducciones
+            cancion.numeroReproducciones += 1;
+            Crud<Cancion>.Update(id, cancion); 
+
+            return View("Reproducir", cancion);
+        }
+
+
+
     
 
-        //// POST: CancionesController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(Cancion data)
-        //{
-        //    try
-        //    {
-        //       Crud<Cancion>.Create(data);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError("", ex.Message);
-        //        return View(data);
-        //    }
-        //}
-
-        // GET: CancionesController/Edit/5
+       // GET: CancionesController/Edit/5
         public ActionResult Edit(int id)
         {
             var data = Crud<Cancion>.GetById(id);
             return View(data);
         }
 
-        // POST: CancionesController/Edit/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Cancion data)
+       
+        public IActionResult Edit(int id, Cancion data, IFormFile imagen)
         {
             try
             {
-                Crud<Cancion>.Update(id, data);
+                if (imagen != null && imagen.Length > 0)
+                {
+                    var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+                    var extension = Path.GetExtension(imagen.FileName).ToLower();
+
+                    if (!extensionesPermitidas.Contains(extension))
+                    {
+                        ModelState.AddModelError("", "Formato de imagen no permitido.");
+                        return View(data);
+                    }
+
+                    var nombreArchivo = $"portada_{id}{extension}";
+                    var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "portadas", nombreArchivo);
+
+                    using (var stream = new FileStream(ruta, FileMode.Create))
+                    {
+                        imagen.CopyTo(stream); // sin await
+                    }
+                }
+
+                Crud<Cancion>.Update(id, data);  // también sin await
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -112,6 +133,8 @@ namespace TuneCast.MVC.Controllers
                 return View(data);
             }
         }
+
+        
 
         // GET: CancionesController/Delete/5
         public ActionResult Delete(int id)
