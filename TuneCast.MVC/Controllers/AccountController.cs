@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using TuneCastAPIConsumer;
 using TuneCastModelo;
 
@@ -13,6 +14,66 @@ namespace TuneCast.MVC.Controllers
         {
             // Configura el endpoint de la API para usuarios
             Crud<Usuario>.EndPoint = "https://localhost:7194/api/Usuarios"; // Reemplaza con tu URL real
+        }
+        [HttpGet]
+        public IActionResult RecuperarPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult RecuperarPassword(string email, string palabraClave, string newPassword)
+        {
+            try
+            {
+                var usuario = Crud<Usuario>.GetAll().FirstOrDefault(u => u.Email == email);
+
+                if (usuario == null)
+                {
+                    ViewData["ErrorMessage"] = "Correo no encontrado";
+                    ViewData["Email"] = email;
+                    ViewData["PalabraClave"] = palabraClave;
+                    return View();
+                }
+
+                if (usuario.PalabraClaveRecuperacion != palabraClave)
+                {
+                    ViewData["ErrorMessage"] = "Palabra clave de recuperación incorrecta";
+                    ViewData["Email"] = email;
+                    ViewData["PalabraClave"] = palabraClave;
+                    return View();
+                }
+
+                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
+                if (!passwordPattern.IsMatch(newPassword))
+                {
+                    ViewData["ErrorMessage"] = "La nueva contraseña debe comenzar con mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.";
+                    ViewData["Email"] = email;
+                    ViewData["PalabraClave"] = palabraClave;
+                    return View();
+                }
+
+                usuario.Contraseña = newPassword;
+                bool success = Crud<Usuario>.Update(usuario.Id, usuario);
+
+                if (success)
+                {
+                    TempData["SuccessMessage"] = "Contraseña actualizada correctamente";
+                    return RedirectToAction("Login");
+                }
+
+                ViewData["ErrorMessage"] = "Error al actualizar la contraseña";
+                ViewData["Email"] = email;
+                ViewData["PalabraClave"] = palabraClave;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = $"Error: {ex.Message}";
+                ViewData["Email"] = email;
+                ViewData["PalabraClave"] = palabraClave;
+                return View();
+            }
         }
 
         [HttpGet]
@@ -74,7 +135,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string nombre, string email, string contraseña)
+        public async Task<IActionResult> Register(string nombre, string email, string contraseña, string palabraClaveRecuperacion)
         {
             try
             {
@@ -85,12 +146,21 @@ namespace TuneCast.MVC.Controllers
                     return View();
                 }
 
+                // Validar contraseña: al menos una mayúscula, un carácter especial y longitud mínima de 8 caracteres
+                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
+                if (!passwordPattern.IsMatch(contraseña))
+                {
+                    ViewData["ErrorMessage"] = "La contraseña debe comenzar con una mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.";
+                    return View();
+                }
+
                 var nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
                     Email = email,
                     Contraseña = contraseña,
-                    Rol = "Usuario" // Rol por defecto
+                    Rol = "Usuario", // Rol por defecto
+                    PalabraClaveRecuperacion = palabraClaveRecuperacion
                 };
 
                 var usuarioCreado = await Crud<Usuario>.Create(nuevoUsuario);

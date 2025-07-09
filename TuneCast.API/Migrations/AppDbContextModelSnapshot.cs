@@ -238,6 +238,10 @@ namespace TuneCast.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PalabraClaveRecuperacion")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Rol")
                         .IsRequired()
                         .HasColumnType("text");

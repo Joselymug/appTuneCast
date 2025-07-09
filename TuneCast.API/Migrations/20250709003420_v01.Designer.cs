@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TuneCast.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250704014613_v01")]
+    [Migration("20250709003420_v01")]
     partial class v01
     {
         /// <inheritdoc />
@@ -238,6 +238,10 @@ namespace TuneCast.API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PalabraClaveRecuperacion")
                         .IsRequired()
                         .HasColumnType("text");
 

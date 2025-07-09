@@ -16,6 +16,7 @@ namespace TuneCastModelo
         public string Email { get; set; }
         public string Contraseña { get; set; }
         public string Rol { get; set; }  // Ejemplo: Administrador, Cliente,artista
+        public string PalabraClaveRecuperacion { get; set; }  // Palabra clave para recuperación de contraseña
 
         // Relaciones
         public Suscripcion? Suscripcion { get; set; }  // Relación con Suscripción
