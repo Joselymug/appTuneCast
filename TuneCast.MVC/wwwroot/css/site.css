@@ -82,3 +82,9 @@ body {
         color: #7A00D4;
         text-decoration: none;
     }
+
+
+
+.navbar-custom {
+    background: linear-gradient(135deg, #7A00D4, #B486F6); /* Cambia estos colores al que desees */
+}

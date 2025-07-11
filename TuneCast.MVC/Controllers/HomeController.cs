@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TuneCast.MVC.Models;
+using TuneCastAPIConsumer;
+using TuneCastModelo;
 
 namespace TuneCast.MVC.Controllers
 {
@@ -20,8 +22,10 @@ namespace TuneCast.MVC.Controllers
                 return RedirectToAction("Login", "Account");  // Redirige a la página de login
             }
 
-            return View();
-        
+            // Obtener canciones
+            var canciones = Crud<Cancion>.GetAll(); // Recuperar canciones de la API
+            return View(canciones);
+
         }
 
         public IActionResult Privacy()
