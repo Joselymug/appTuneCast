@@ -1,0 +1,81 @@
+﻿@using TuneCastModelo
+@model Usuario
+
+
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>@Model.Nombre</h2>
+
+        <!-- Foto de perfil -->
+        <img src="@ViewBag.ProfileImage" alt="Foto de perfil" class="profile-img" />
+
+        <!-- Agregar un botón para editar la imagen -->
+        <form asp-action="EditProfileImage" method="post" enctype="multipart/form-data">
+            <input type="file" name="profileImage" accept="image/*" />
+            <button type="submit" class="btn btn-primary">Cambiar Imagen</button>
+        </form>
+        <!-- Información del perfil -->
+        <p><strong>Biografía:</strong> @ViewBag.Biography</p>
+
+        @if (ViewBag.Canciones != null)
+        {
+            <p><strong>Rol:</strong> Artista</p>
+            <h3>Canciones del Artista</h3>
+            <div class="songs-list">
+                @foreach (var song in ViewBag.Canciones)
+                {
+                    <div class="song-card">
+                        <p>@song.Titulo</p> <!-- Aquí puedes incluir más detalles de la canción -->
+                    </div>
+                }
+            </div>
+        }
+        else if (ViewBag.Plan != null)
+        {
+            <p><strong>Rol:</strong> Cliente</p>
+            <p><strong>Plan:</strong> @ViewBag.Plan</p>
+        }
+        else
+        {
+            <p>Usuario sin rol asignado.</p>
+        }
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        background: #3d0026;
+        color: white;
+        padding: 20px;
+        border-radius: 12px;
+    }
+
+    .profile-header {
+        text-align: center;
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+
+    .songs-list {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .song-card {
+        background: rgba(180, 134, 246, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+    }
+</style>
