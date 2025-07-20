@@ -447,3 +447,41 @@ body {
 .layout-main {
     margin-top: 100px; /* Espacio suficiente para que no se solape con la navbar */
 }
+body {
+    background-color: #121212;
+    color: #fff;
+}
+
+h2 {
+    color: #fff;
+}
+
+.table {
+    background-color: #181818;
+}
+
+    .table thead {
+        background-color: #333;
+    }
+
+    .table tbody tr:hover {
+        background-color: #444;
+    }
+
+    .table img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+    }
+
+.badge {
+    font-size: 0.8rem;
+}
+
+.btn-outline-success, .btn-outline-warning, .btn-outline-danger {
+    margin-right: 5px;
+}

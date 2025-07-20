@@ -1,0 +1,139 @@
+﻿@model ReportesViewModel
+
+@{
+    ViewData["Title"] = "Reportes";
+}
+
+<h1>Reportes</h1>
+
+<!-- Lista de Canciones -->
+<h2>Canciones</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Artista</th>
+            <th>Reproducciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cancion in Model.Canciones)
+        {
+            <tr>
+                <td>@cancion.Titulo</td>
+                <td>@cancion.Artista</td>
+                <td>@cancion.numeroReproducciones</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Lista de Usuarios -->
+<h2>Usuarios</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model.Usuarios)
+        {
+            <tr>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Email</td>
+                <td>@usuario.Rol</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Lista de Pagos -->
+<h2>Pagos</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Suscripcion</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Metodo de Pago</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pago in Model.Pagos)
+        {
+            <tr>
+                <td>@pago.Usuario.Nombre</td>
+                <td>@pago.Suscripcion.Plan.Nombre</td>
+                <td>@pago.Monto</td>
+                <td>@pago.FechaPago.ToShortDateString()</td>
+                <td>@pago.MetodoPago</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Lista de Playlists -->
+<h2>Playlists</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Usuario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var playlist in Model.Playlists)
+        {
+            <tr>
+                <td>@playlist.Nombre</td>
+                <td>@playlist.Usuario.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Lista de Artistas -->
+@* <h2>Artistas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Genero</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artista in Model.Artistas)
+        {
+            <tr>
+                <td>@artista.Nombre</td>
+                <td>@artista.Genero</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+<!-- Lista de Planes -->
+<h2>Planes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre del Plan</th>
+            <th>Precio</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var plan in Model.Planes)
+        {
+            <tr>
+                <td>@plan.Nombre</td>
+                <td>@plan.Precio</td>
+                <td>@plan.Descripcion</td>
+            </tr>
+        }
+    </tbody>
+</table>

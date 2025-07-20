@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TuneCastAPIConsumer;
 using TuneCastModelo;
@@ -91,6 +92,22 @@ namespace TuneCast.MVC.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(data);
             }
+        }
+        public IActionResult GetUsersByRole(string rol)
+        {
+            // Obtener todos los usuarios
+            var usuarios = Crud<Usuario>.GetAll();
+
+            // Filtrar los usuarios por rol
+            var usuariosEnRol = usuarios.Where(u => u.Rol == rol).ToList();
+
+            // Verificar si se encontraron usuarios
+            if (usuariosEnRol.Count == 0)
+            {
+                TempData["Error"] = $"No se encontraron usuarios con el rol '{rol}'.";
+            }
+
+            return View(usuariosEnRol);
         }
 
     }

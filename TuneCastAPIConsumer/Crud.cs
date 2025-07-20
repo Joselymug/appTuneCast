@@ -153,5 +153,25 @@ namespace TuneCastAPIConsumer
                 }
             }
         }
+        public static async Task<T> GetByName(string name)
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync($"{EndPoint}/{name}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(json);
+                }
+                else
+                {
+                    // Aquí imprimes más información sobre el error
+                    var errorDetails = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error: {response.StatusCode}, {errorDetails}");
+                }
+            }
+        }
+
+
     }
 }
