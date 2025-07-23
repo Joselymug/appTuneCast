@@ -160,7 +160,7 @@ namespace TuneCast.MVC.Controllers
                     Nombre = nombre,
                     Email = email,
                     Contraseña = contraseña,
-                    Rol = "Usuario", // Rol por defecto
+                    Rol = "Cliente", // Rol por defecto
                     PalabraClaveRecuperacion = palabraClaveRecuperacion
                 };
 
@@ -189,85 +189,6 @@ namespace TuneCast.MVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-
-
-
-        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //    public async Task<IActionResult> Perfil()
-        //{
-
-        //    try
-        //    {
-        //        // Obtener el nombre del usuario autenticado
-        //        var userName = User.Identity.Name;
-
-        //    // Recuperamos el usuario por su nombre
-        //    var user = await Crud<Usuario>.GetByName(userName); // Esto obtiene el usuario, ya no es un IActionResult
-
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    // Asignamos la imagen de perfil y biografía al ViewBag
-        //    ViewBag.ProfileImage = "/images/default-avatar.jpg"; // Imagen predeterminada
-        //    ViewBag.Biography = "Biografía del artista o cliente"; // Biografía por defecto
-
-        //    // Determinar si el usuario es Artista o Cliente
-        //    if (user.Rol == "Artista")
-        //    {
-        //        var canciones = await GetSongsByArtist(userName); // Obtiene las canciones del artista
-        //        ViewBag.Canciones = canciones;
-        //    }
-        //    else if (user.Rol == "Cliente")
-        //    {
-        //        var plan = GetSubscriptionPlan(userName); // Obtiene el plan del cliente
-        //        ViewBag.Plan = plan; 
-        //    }
-        //    else if (user.Rol == "Admin")
-        //    {
-        //        // Aquí agregas la lógica que necesites para los administradores
-        //        ViewBag.AdminMessage = "Bienvenido Administrador"; // Un mensaje de bienvenida para administradores
-        //    }
-
-        //    // Pasamos el modelo a la vista
-        //    return View(user);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Aquí puedes capturar y mostrar el error
-        //        ViewBag.ErrorMessage = ex.Message;
-        //        return View("Error"); // Si tienes una vista de error configurada
-        //    }
-        //}
-
-        //// Métodos auxiliares
-        //private async Task<IActionResult> GetUserByName(string userName)
-        //{
-        //    // Llamada asincrónica al método GetByName
-        //    var user = await Crud<Usuario>.GetByName(userName);
-
-        //    // Retorna la vista con el usuario obtenido
-        //    return View(user);
-        //}
-
-        //private async Task<IActionResult> GetSongsByArtist(string userName)
-        //{
-        //    // Obtienes las canciones del artista (esto es un ejemplo)
-        //    var user = await Crud<Cancion>.GetByName(userName) ;
-        //    return View(user);
-        //}
-
-        //private async Task<IActionResult> GetSubscriptionPlan(string userName)
-        //{
-        //    var plan = await Crud<Plan>.GetByName(userName);
-        //    // Recupera el plan del cliente (esto es solo un ejemplo)
-        //    return View(plan); 
-        //}
 
 
         // Acción para mostrar el perfil del usuario
