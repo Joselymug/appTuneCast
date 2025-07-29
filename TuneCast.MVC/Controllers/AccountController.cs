@@ -141,10 +141,11 @@ namespace TuneCast.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string nombre, string email, string contraseña, string palabraClaveRecuperacion)
+        public async Task<IActionResult> Register(string nombre, string email, string contraseña, string confirmPassword, string palabraClaveRecuperacion)
         {
             try
             {
+                // Verificar si el correo ya está registrado
                 var usuarios = Crud<Usuario>.GetAll();
                 if (usuarios.Any(u => u.Email == email))
                 {
@@ -152,14 +153,22 @@ namespace TuneCast.MVC.Controllers
                     return View();
                 }
 
+                // Validación de contraseñas
+                if (contraseña != confirmPassword)
+                {
+                    ViewData["ErrorMessage"] = "Las contraseñas no coinciden.";
+                    return View();
+                }
+
                 // Validar contraseña: al menos una mayúscula, un carácter especial y longitud mínima de 8 caracteres
-                var passwordPattern = new Regex(@"^(?=.[A-Z])(?=.[\W]).{8,}$");
+                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
                 if (!passwordPattern.IsMatch(contraseña))
                 {
                     ViewData["ErrorMessage"] = "La contraseña debe comenzar con una mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.";
                     return View();
                 }
 
+                // Crear el nuevo usuario
                 var nuevoUsuario = new Usuario
                 {
                     Nombre = nombre,
@@ -169,23 +178,28 @@ namespace TuneCast.MVC.Controllers
                     PalabraClaveRecuperacion = palabraClaveRecuperacion
                 };
 
+                // Intentar crear el usuario a través de la API
                 var usuarioCreado = await Crud<Usuario>.Create(nuevoUsuario);
 
+                // Verificar si la creación fue exitosa
                 if (usuarioCreado?.Id > 0)
                 {
                     TempData["SuccessMessage"] = "Registro exitoso. Por favor inicie sesión.";
                     return RedirectToAction("Login");
                 }
 
+                // Si la creación falló, mostrar un mensaje de error
                 ViewData["ErrorMessage"] = "No se pudo crear el usuario. Intente nuevamente.";
                 return View();
             }
             catch (Exception ex)
             {
+                // Manejo de excepciones
                 ViewData["ErrorMessage"] = $"Error al registrar: {ex.Message}";
                 return View();
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()

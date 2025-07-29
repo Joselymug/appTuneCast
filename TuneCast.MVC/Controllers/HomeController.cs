@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TuneCast.MVC.Models;
@@ -6,6 +7,7 @@ using TuneCastModelo;
 
 namespace TuneCast.MVC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,22 +17,46 @@ namespace TuneCast.MVC.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string q)
         {
-            if (!User.Identity.IsAuthenticated)  // Verifica si el usuario no está autenticado
+            try
             {
-                return RedirectToAction("Login", "Account");  // Redirige a la página de login
+                var todasLasCanciones = Crud<Cancion>.GetAll();
+                var canciones = todasLasCanciones ?? new List<Cancion>();
+
+                // Obtener playlists del usuario autenticado
+                var usuarioId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                if (!string.IsNullOrEmpty(usuarioId))
+                {
+                    var todasLasPlaylists = Crud<Playlist>.GetAll();
+                    var playlistsDelUsuario = todasLasPlaylists?.Where(p => p.UsuarioId.ToString() == usuarioId).ToList();
+                    ViewBag.Playlists = playlistsDelUsuario;
+                }
+
+                // Si hay término de búsqueda, filtrar las canciones
+                if (!string.IsNullOrWhiteSpace(q))
+                {
+                    var termino = q.ToLower().Trim();
+                    canciones = canciones.Where(c =>
+                        (c.Titulo != null && c.Titulo.ToLower().Contains(termino)) ||
+                        (c.Artista != null && c.Artista.ToLower().Contains(termino)) ||
+                        (c.Genero != null && c.Genero.ToLower().Contains(termino))
+                    ).ToList();
+
+                    // Pasar datos de búsqueda a la vista
+                    ViewData["SearchQuery"] = q;
+                    ViewData["SearchCount"] = canciones.Count;
+                }
+
+                return View(canciones);
             }
-
-            // Obtener canciones y playlists
-            var canciones = Crud<Cancion>.GetAll(); // Recuperar canciones de la API
-            var playlists = Crud<Playlist>.GetAll(); // Recuperar playlists de la API
-
-            // Pasar playlists a la vista
-            ViewBag.Playlists = playlists;
-
-            return View(canciones);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al cargar las canciones");
+                return View(new List<Cancion>());
+            }
         }
+
         private List<Usuario> GetUsuariosRol(string rol)
         {
             var data = Crud<Usuario>.GetAll();
@@ -38,6 +64,7 @@ namespace TuneCast.MVC.Controllers
 
             return artistas;
         }
+
         public IActionResult Privacy()
         {
             return View();
@@ -48,6 +75,5 @@ namespace TuneCast.MVC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

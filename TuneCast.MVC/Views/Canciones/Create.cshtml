@@ -6,70 +6,51 @@
 
 <h1>Create</h1>
 
-<h4>Cancion</h4>
+<h4>Canción</h4>
 <hr />
 <div class="row">
     <div class="col-md-6">
         <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-           
+
+            <!-- Titulo -->
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Artista" class="control-label"></label>
-                <input asp-for="Artista" class="form-control" />
-                <span asp-validation-for="Artista" class="text-danger"></span>
-            </div>
+
+            <!-- Genero -->
             <div class="form-group">
                 <label asp-for="Genero" class="control-label"></label>
                 <input asp-for="Genero" class="form-control" />
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Aprobada" /> @Html.DisplayNameFor(model => model.Aprobada)
-                </label>
+
+            <!-- UsuarioId - Este campo no será visible, pero será establecido automáticamente -->
+            <input asp-for="UsuarioId" type="hidden" value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" />
+            <input asp-for="Artista" type="hidden" value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" />
+            <input asp-for="Licencia" type="hidden" value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" />
+            <input asp-for="DerechosAutor" type="hidden" value="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value" />
+            <!-- Archivo de música -->
+            <div class="form-group">
+                <label for="Archivo">Archivo de Música</label>
+                <input type="file" name="archivo" class="form-control" accept=".mp3,.wav,.ogg" required />
             </div>
+
             <div class="form-group">
-                <label asp-for="DerechosAutor" class="control-label"></label>
-                <input asp-for="DerechosAutor" class="form-control" />
-                <span asp-validation-for="DerechosAutor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="numeroReproducciones" class="control-label"></label>
-                <input asp-for="numeroReproducciones" class="form-control" />
-                <span asp-validation-for="numeroReproducciones" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Licencia" class="control-label"></label>
-                <input asp-for="Licencia" class="form-control" />
-                <span asp-validation-for="Licencia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <input asp-for="UsuarioId" class="form-control" />
-                <span asp-validation-for="UsuarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-            <label for="Archivo">Archivo de Música</label>
-            <input type="file" name="archivo" class="form-control" accept=".mp3,.wav,.ogg" required />
-        </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
-
-

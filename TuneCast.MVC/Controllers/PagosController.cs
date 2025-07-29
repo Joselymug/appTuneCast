@@ -114,7 +114,7 @@ namespace TuneCast.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = " Cliente, Premium")]
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public async Task<ActionResult> Create(Pago pago, string numeroTarjeta, string fechaExpiracion, string cvv, string metodoPago)
         {
             //OBTENER AUTOMÁTICAMENTE EL USUARIO LOGUEADO
@@ -212,7 +212,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: Confirmación de pago exitoso
-        [Authorize(Roles = " Cliente, Premium")]
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult PagoExitoso(decimal monto, string ultimosDigitos)
         {
             ViewBag.Monto = monto;

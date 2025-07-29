@@ -11,7 +11,7 @@ namespace TuneCast.MVC.Controllers
     
     public class UsuariosController : Controller
     {
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var data = Crud<Usuario>.GetAll();  

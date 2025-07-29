@@ -1,65 +1,59 @@
 ﻿@model IEnumerable<TuneCastModelo.Suscripcion>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Suscripciones";
 }
 
-<h1>Index</h1>
+<div class="data-container">
+    <h1>GESTIÓN DE SUSCRIPCIONES</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UsuarioId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlanId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UsuarioId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlanId)
-            </td>
-            <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="actions-bar">
+        <a asp-action="Create" class="create-btn">CREAR NUEVA SUSCRIPCIÓN</a>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>FECHA INICIO</th>
+                <th>FECHA FIN</th>
+                <th>ESTADO</th>
+                <th>USUARIO</th>
+                <th>PLAN</th>
+                <th>ACCIONES</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td>@item.FechaFin.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <span class="status-badge @(item.Activa ? "active-badge" : "inactive-badge")">
+                                @(item.Activa ? "ACTIVA" : "INACTIVA")
+                            </span>
+                        </td>
+                        <td>@item.UsuarioId</td>
+                        <td>@item.PlanId</td>
+                        <td class="action-buttons">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn edit-btn">EDITAR</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="action-btn details-btn">DETALLES</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="action-btn delete-btn">ELIMINAR</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="empty-message">
+                        No hay suscripciones registradas
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

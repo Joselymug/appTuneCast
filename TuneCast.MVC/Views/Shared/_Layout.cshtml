@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css/ValidacionDatos.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Pagos.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
- 
+
     <link rel="stylesheet" href="~/TuneCast.MVC.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/editar-perfil.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/perfil-editable.css" asp-append-version="true" />
@@ -44,7 +44,9 @@
                         <!-- Barra de búsqueda centrada -->
                         <div class="navbar-search mx-auto">
                             <div class="search-container">
-                                <input type="text" class="search-bar" placeholder="¿Qué quieres reproducir?">
+                                <form asp-controller="Home" asp-action="Index" method="get" style="display: inline;">
+                                    <input type="text" name="q" class="search-bar" placeholder="¿Qué quieres reproducir?" value="@ViewData["SearchQuery"]">
+                                </form>
                                 <i class="fas fa-search search-icon"></i>
                             </div>
                         </div>

@@ -19,6 +19,11 @@ namespace TuneCast.MVC.Controllers
             // Inicializamos el controlador Canciones
             _cancionesController = new CancionesController();
         }
+        public ActionResult Index(string rol)
+        {
+            var data = Crud<Usuario>.GetByRol(rol);
+            return View(data);
+        }
         // Acción para eliminar canciones
         public IActionResult ManageSongs()
         {

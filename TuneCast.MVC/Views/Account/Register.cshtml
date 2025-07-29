@@ -55,8 +55,7 @@
                            autocomplete="new-password"
                            aria-describedby="password-reg-help" />
                     <small id="password-reg-help" class="form-text">
-
-
+                        La contraseña debe comenzar con una mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.
                     </small>
                 </div>
 
@@ -109,6 +108,13 @@
             {
                 <div class="alert alert-danger" role="alert">
                     <i class="fas fa-exclamation-triangle"></i> @ViewData["ErrorMessage"]
+                </div>
+            }
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
                 </div>
             }
         </div>
