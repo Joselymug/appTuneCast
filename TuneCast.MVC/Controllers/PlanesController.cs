@@ -67,6 +67,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PlanesController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -75,6 +76,7 @@ namespace TuneCast.MVC.Controllers
         // POST: PlanesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Create(Plan plan)
         {
             try
@@ -143,6 +145,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PlanesController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var data = Crud<Plan>.GetById(id);
@@ -152,6 +155,7 @@ namespace TuneCast.MVC.Controllers
         // POST: PlanesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, Plan data)
         {
             try
@@ -167,6 +171,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PlanesController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             try
@@ -190,6 +195,7 @@ namespace TuneCast.MVC.Controllers
         // POST: PlanesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, Plan plan)
         {
             try

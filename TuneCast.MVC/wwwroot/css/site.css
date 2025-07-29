@@ -1,4 +1,4 @@
-html {
+/*html {
     font-size: 14px;
 }
 
@@ -19,10 +19,10 @@ html {
 
 body {
     margin-bottom: 60px;
-}
+}*/
 
 /* Paleta de colores TuneCast */
-.tunecast-primary {
+/*.tunecast-primary {
     background-color: #7A00D4;
     color: white;
 }
@@ -45,10 +45,10 @@ body {
 .tunecast-deep {
     background-color: #3D0026;
     color: white;
-}
+}*/
 
 /* Estilos para el Login */
-.login-container {
+/*.login-container {
     background-color: #B486F6;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -86,5 +86,95 @@ body {
 
 
 .navbar-custom {
-    background: linear-gradient(135deg, #7A00D4, #B486F6); /* Cambia estos colores al que desees */
+    background: linear-gradient(135deg, #7A00D4, #B486F6);*/ /* Cambia estos colores al que desees */
+/*}*/
+html {
+    font-size: 14px;
 }
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/* Paleta de colores TuneCast - Sólidos */
+.tunecast-primary {
+    background-color: #7A00D4; /* Color sólido */
+    color: white;
+}
+
+.tunecast-secondary {
+    background-color: #B486F6; /* Color sólido */
+    color: black;
+}
+
+.tunecast-accent {
+    background-color: #00C6C6; /* Color sólido */
+    color: black;
+}
+
+.tunecast-dark {
+    background-color: #000000; /* Color sólido */
+    color: white;
+}
+
+.tunecast-deep {
+    background-color: #3D0026; /* Color sólido */
+    color: white;
+}
+
+/* Estilos para el Login */
+.login-container {
+    background-color: #B486F6; /* Color sólido */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+    background-color: #7A00D4; /* Color sólido */
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.login-btn {
+    background-color: #00C6C6; /* Color sólido */
+    border: none;
+    color: black;
+    transition: all 0.3s;
+}
+
+    .login-btn:hover {
+        background-color: #008a8a; /* Color sólido */
+        color: white;
+    }
+
+.login-link {
+    color: #3D0026; /* Color sólido */
+    font-weight: bold;
+}
+
+    .login-link:hover {
+        color: #7A00D4; /* Color sólido */
+        text-decoration: none;
+    }
+
+/* Navbar */
+.navbar-custom {
+    background-color: #7A00D4; /* Color sólido */
+} 
+

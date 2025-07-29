@@ -1,7 +1,7 @@
 ﻿/* ===============================================
    PALETA DE COLORES TUNECAST
    =============================================== */
-:root {
+/*:root {
     --tunecast-primary: #7A00D4;
     --tunecast-secondary: #B486F6;
     --tunecast-accent: #00C6C6;
@@ -18,23 +18,23 @@
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
-}
+}*/
 
 /* ===============================================
    CONTENEDORES PRINCIPALES
    =============================================== */
-.payment-container, .container-custom {
+/*.payment-container, .container-custom {
     max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     background: linear-gradient(135deg, #f8fafc 0%, var(--gray-100) 100%);
     min-height: 100vh;
-}
+}*/
 
 /* ===============================================
    HEADER
    =============================================== */
-.payment-header {
+/*.payment-header {
     text-align: center;
     margin-bottom: 30px;
     padding: 30px 20px;
@@ -58,12 +58,12 @@
         margin: 0;
         font-size: 1.1rem;
         opacity: 0.9;
-    }
+    }*/
 
 /* ===============================================
    TARJETAS
    =============================================== */
-.payment-card {
+/*.payment-card {
     background: white;
     border-radius: 12px;
     padding: 25px;
@@ -76,12 +76,12 @@
     .payment-card:hover {
         transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
-    }
+    }*/
 
 /* ===============================================
    RESUMEN DE PAGO
    =============================================== */
-.payment-summary {
+/*.payment-summary {
     background: linear-gradient(135deg, var(--tunecast-deep) 0%, var(--tunecast-primary) 100%);
     color: white;
     padding: 25px;
@@ -113,12 +113,12 @@
     font-size: 1rem;
     margin-bottom: 10px;
     opacity: 0.9;
-}
+}*/
 
 /* ===============================================
    FORMULARIOS
    =============================================== */
-.payment-form-section {
+/*.payment-form-section {
     margin-bottom: 25px;
 }
 
@@ -167,12 +167,12 @@
 
     .payment-form-control:hover {
         border-color: var(--tunecast-secondary);
-    }
+    }*/
 
 /* ===============================================
    MÉTODOS DE PAGO
    =============================================== */
-.payment-method-option {
+/*.payment-method-option {
     display: flex;
     align-items: center;
     padding: 15px;
@@ -225,12 +225,12 @@
     align-items: center;
     gap: 8px;
     font-weight: 500;
-}
+}*/
 
 /* ===============================================
    GRID DE TARJETA
    =============================================== */
-.card-grid {
+/*.card-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
@@ -240,12 +240,12 @@
     .card-grid {
         grid-template-columns: 1fr;
     }
-}
+}*/
 
 /* ===============================================
    BOTONES
    =============================================== */
-.btn-payment-primary {
+/*.btn-payment-primary {
     background: linear-gradient(135deg, var(--tunecast-primary) 0%, var(--tunecast-deep) 100%);
     color: white;
     border: none;
@@ -345,12 +345,12 @@
         box-shadow: var(--shadow);
         text-decoration: none;
         color: white;
-    }
+    }*/
 
 /* ===============================================
    ACCIONES
    =============================================== */
-.payment-actions {
+/*.payment-actions {
     display: flex;
     gap: 15px;
     justify-content: center;
@@ -376,12 +376,12 @@
         gap: 15px;
         align-items: stretch;
     }
-}
+}*/
 
 /* ===============================================
    ALERTAS
    =============================================== */
-.payment-alert {
+/*.payment-alert {
     display: flex;
     align-items: flex-start;
     padding: 15px;
@@ -449,12 +449,12 @@
 .payment-error-list {
     margin: 8px 0 0 0;
     padding-left: 20px;
-}
+}*/
 
 /* ===============================================
    INFORMACIÓN DE SEGURIDAD
    =============================================== */
-.payment-security-info {
+/*.payment-security-info {
     display: flex;
     align-items: center;
     padding: 15px;
@@ -499,12 +499,12 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-}
+}*/
 
 /* ===============================================
    ESTADÍSTICAS
    =============================================== */
-.stats-section {
+/*.stats-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -550,12 +550,12 @@
     color: var(--gray-600);
     font-size: 0.9rem;
     font-weight: 500;
-}
+}*/
 
 /* ===============================================
    TABLAS
    =============================================== */
-.payment-table-container {
+/*.payment-table-container {
     background: white;
     border-radius: 12px;
     box-shadow: var(--shadow);
@@ -628,12 +628,12 @@
     border-radius: 12px;
     font-size: 0.8rem;
     font-weight: 600;
-}
+}*/
 
 /* ===============================================
    BOTONES DE GRUPO EN TABLA
    =============================================== */
-.payment-btn-group {
+/*.payment-btn-group {
     display: flex;
     gap: 6px;
 }
@@ -641,12 +641,12 @@
 .btn-sm {
     padding: 6px 10px;
     font-size: 0.75rem;
-}
+}*/
 
 /* ===============================================
    DETALLES DE PAGO
    =============================================== */
-.details-grid {
+/*.details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 20px;
@@ -687,12 +687,12 @@
         font-size: 1.1rem;
         font-weight: 700;
         color: var(--success);
-    }
+    }*/
 
 /* ===============================================
    BADGES ADICIONALES
    =============================================== */
-.iva-badge {
+/*.iva-badge {
     background: linear-gradient(135deg, var(--tunecast-secondary) 0%, var(--tunecast-primary) 100%);
     color: white;
     padding: 3px 10px;
@@ -729,12 +729,12 @@
     color: var(--gray-600);
     font-size: 0.9rem;
     line-height: 1.4;
-}
+}*/
 
 /* ===============================================
    PÁGINA DE ÉXITO
    =============================================== */
-.payment-success-container {
+/*.payment-success-container {
     text-align: center;
     max-width: 500px;
     margin: 0 auto;
@@ -803,12 +803,12 @@
 .payment-success-value {
     font-weight: 600;
     color: var(--gray-800);
-}
+}*/
 
 /* ===============================================
    RESPONSIVE DESIGN
    =============================================== */
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
     .payment-container, .container-custom {
         padding: 15px;
     }
@@ -856,12 +856,12 @@
     .payment-security-icons {
         margin-right: 0;
     }
-}
+}*/
 
 /* ===============================================
    EFECTOS ESPECIALES SIMPLES
    =============================================== */
-.card-number-input {
+/*.card-number-input {
     font-family: 'Courier New', monospace;
     letter-spacing: 1px;
 }
@@ -878,4 +878,491 @@
 
     .section-title i {
         color: var(--tunecast-primary);
+    }*/
+/* ===============================================
+   VARIABLES GLOBALES
+   =============================================== */
+:root {
+    --tunecast-primary: #7A00D4; /* Color sólido */
+    --tunecast-secondary: #B486F6; /* Color sólido */
+    --tunecast-accent: #00C6C6; /* Color sólido */
+    --tunecast-dark: #000000; /* Color sólido */
+    --tunecast-deep: #3D0026; /* Color sólido */
+    --success: #10b981; /* Color sólido */
+    --danger: #ef4444; /* Color sólido */
+    --warning: #f59e0b; /* Color sólido */
+    --info: #06b6d4; /* Color sólido */
+    --gray-100: #f3f4f6; /* Color sólido */
+    --gray-200: #e5e7eb; /* Color sólido */
+    --gray-600: #6b7280; /* Color sólido */
+    --gray-800: #1f2937; /* Color sólido */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* Sombra */
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Sombra */
+    --transition: all 0.3s ease;
+}
+
+/* ===============================================
+   BASE Y RESET
+   =============================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #000000; /* Color sólido */
+    min-height: 100vh;
+    padding: 20px 0;
+    line-height: 1.6;
+}
+
+.container, .container-custom, .confirmation-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.confirmation-container {
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+/* ===============================================
+   HEADER
+   =============================================== */
+.payment-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    background: var(--tunecast-primary); /* Color sólido */
+    border-radius: 12px;
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+    .payment-header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.2rem;
+        font-weight: 700;
     }
+
+        .payment-header h1 i {
+            margin-right: 15px;
+        }
+
+    .payment-header p {
+        margin: 0;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+/* ===============================================
+   TARJETAS
+   =============================================== */
+.payment-card {
+    background: white; /* Color sólido */
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--tunecast-primary); /* Color sólido */
+    transition: var(--transition);
+}
+
+    .payment-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+/* ===============================================
+   RESUMEN DE PAGO
+   =============================================== */
+.payment-summary {
+    background: var(--tunecast-deep); /* Color sólido */
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+}
+
+    .payment-summary h3 {
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+.payment-amount {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+    .payment-amount .currency {
+        font-size: 2rem;
+        vertical-align: top;
+        opacity: 0.8;
+    }
+
+.payment-plan-info {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+/* ===============================================
+   FORMULARIOS
+   =============================================== */
+.payment-form-section {
+    margin-bottom: 25px;
+}
+
+.payment-form-title {
+    color: var(--tunecast-deep); /* Color sólido */
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+    .payment-form-title i {
+        color: var(--tunecast-primary); /* Color sólido */
+    }
+
+.payment-form-group {
+    margin-bottom: 15px;
+}
+
+.payment-form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--tunecast-deep); /* Color sólido */
+    font-size: 0.9rem;
+}
+
+.payment-form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+    .payment-form-control:focus {
+        outline: none;
+        border-color: var(--tunecast-primary); /* Color sólido */
+        box-shadow: 0 0 0 3px rgba(122, 0, 212, 0.1);
+    }
+
+    .payment-form-control:hover {
+        border-color: var(--tunecast-secondary); /* Color sólido */
+    }
+
+/* ===============================================
+   MÉTODOS DE PAGO
+   =============================================== */
+.payment-method-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    background: white;
+    margin-bottom: 15px;
+}
+
+    .payment-method-option:hover {
+        border-color: var(--tunecast-secondary); /* Color sólido */
+        background: #fafafa;
+    }
+
+    .payment-method-option.selected {
+        border-color: var(--tunecast-primary); /* Color sólido */
+        background: rgba(122, 0, 212, 0.05);
+    }
+
+.payment-method-icon {
+    width: 45px;
+    height: 45px;
+    background: var(--tunecast-primary); /* Color sólido */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.payment-method-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--tunecast-deep); /* Color sólido */
+}
+
+.payment-method-info p {
+    margin: 0;
+    color: var(--gray-600); /* Color sólido */
+    font-size: 0.85rem;
+}
+
+.payment-method-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+/* ===============================================
+   GRID DE TARJETA
+   =============================================== */
+.card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 576px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===============================================
+   BOTONES
+   =============================================== */
+.btn-payment-primary {
+    background: var(--tunecast-primary); /* Color sólido */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .btn-payment-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        text-decoration: none;
+        color: white;
+    }
+
+.btn-payment-secondary {
+    background: white;
+    color: var(--tunecast-primary); /* Color sólido */
+    border: 2px solid var(--tunecast-primary); /* Color sólido */
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .btn-payment-secondary:hover {
+        background: var(--tunecast-primary); /* Color sólido */
+        color: white;
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+.btn-primary {
+    background: var(--tunecast-primary); /* Color sólido */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+        text-decoration: none;
+        color: white;
+    }
+
+.btn-secondary, .btn-info, .btn-danger {
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+    font-size: 0.85rem;
+}
+
+.btn-secondary {
+    background: var(--gray-600); /* Color sólido */
+    color: white;
+}
+
+.btn-info {
+    background: var(--info); /* Color sólido */
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger); /* Color sólido */
+    color: white;
+}
+
+    .btn-secondary:hover, .btn-info:hover, .btn-danger:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+        text-decoration: none;
+        color: white;
+    }
+
+/* ===============================================
+   ELEMENTOS DIVERSOS
+   =============================================== */
+.confirmation-icon { /* Vista confirmación */
+    background: var(--success); /* Color sólido */
+    color: var(--white);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2em;
+}
+
+.star-icon {
+    color: var(--warning); /* Color sólido */
+    font-size: 1.5em;
+}
+
+.fas {
+    font-size: 1em;
+}
+
+.plan-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.plan-selection {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.action-link {
+    color: var(--tunecast-primary); /* Color sólido */
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+    .action-link:hover {
+        background-color: rgba(122, 0, 212, 0.1);
+        text-decoration: underline;
+    }
+
+/* ===============================================
+   TABLAS - Vista dashboard
+   =============================================== */
+.table-section {
+    background: var(--white); /* Color sólido */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.table-header {
+    background: var(--tunecast-primary); /* Color sólido */
+    color: var(--white);
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .table-header h3 {
+        margin: 0;
+        font-size: 1.5em;
+    }
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.plans-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .plans-table th {
+        background: var(--light-gray); /* Color sólido */
+        padding: 20px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--dark-purple); /* Color sólido */
+        border-bottom: 2px solid var(--border-gray);
+    }
+
+    .plans-table td {
+        padding: 20px;
+        border-bottom: 1px solid var(--border-gray);
+        vertical-align: middle;
+    }
+
+    .plans-table tr:hover {
+        background: rgba(122, 0, 212, 0.03);
+    }
+
+.price-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.base-price {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.final-price {
+    font-weight: 700;
+    color: var(--primary-purple); /* Color sólido */
+    font-size: 1.1em;
+}
+

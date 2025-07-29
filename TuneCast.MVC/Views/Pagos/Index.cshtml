@@ -24,7 +24,7 @@
             <div class="stat-icon">
                 <i class="fas fa-dollar-sign"></i>
             </div>
-            <div class="stat-number">@Model.Sum(p => p.Monto).ToString("C")</div>
+            <div class="stat-number">$@Model.Sum(p => p.Monto).ToString("N2")</div>
             <div class="stat-label">Monto Total</div>
         </div>
 
@@ -96,7 +96,7 @@
                                     <span class="user-count">#@item.Id</span>
                                 </td>
                                 <td>@item.FechaPago.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td class="amount-cell">@item.Monto.ToString("C")</td>
+                                <td class="amount-cell">$@item.Monto.ToString("N2")</td>
                                 <td>
                                     <div class="payment-method-display">
                                         @if (item.MetodoPago.Contains("Tarjeta"))
@@ -118,17 +118,17 @@
                                 <td>@item.SuscripcionId</td>
                                 <td>
                                     <div class="payment-btn-group">
-                                        <a asp-action="Detalles" asp-route-id="@item.Id"
+                                        <a asp-action="Details" asp-route-id="@item.Id"
                                            class="btn btn-info btn-sm"
                                            title="Ver detalles">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a asp-action="Editar" asp-route-id="@item.Id"
+                                        <a asp-action="Edit" asp-route-id="@item.Id"
                                            class="btn btn-secondary btn-sm"
                                            title="Editar">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a asp-action="Eliminar" asp-route-id="@item.Id"
+                                        <a asp-action="Delete" asp-route-id="@item.Id"
                                            class="btn btn-danger btn-sm"
                                            title="Eliminar">
                                             <i class="fas fa-trash-alt"></i>

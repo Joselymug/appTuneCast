@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TuneCastAPIConsumer; 
-using TuneCastModelo;  
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
+using TuneCastAPIConsumer; 
+using TuneCastModelo;  
 
 namespace TuneCast.MVC.Controllers
 {
     public class ContenidoController : Controller
     {
-       
+        [Authorize(Roles = "Admin, Artista")]
         public IActionResult Crear()
         {
             return View();
@@ -17,6 +18,7 @@ namespace TuneCast.MVC.Controllers
         // POST: ContenidoController/Crear
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Artista")]
         public async Task<IActionResult> Crear(Cancion cancion, IFormFile archivo)
         {
             if (archivo != null && archivo.Length > 0)

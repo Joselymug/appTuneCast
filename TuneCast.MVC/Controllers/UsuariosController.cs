@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TuneCastAPIConsumer;
@@ -7,9 +8,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TuneCast.MVC.Controllers
 {
+    
     public class UsuariosController : Controller
     {
-        // GET: UsuariosController
+        
         public ActionResult Index()
         {
             var data = Crud<Usuario>.GetAll();  
@@ -17,6 +19,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: UsuariosController/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int id)
         {
             var data = Crud<Usuario>.GetById(id);
@@ -24,6 +27,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: UsuariosController/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -32,6 +36,7 @@ namespace TuneCast.MVC.Controllers
         // POST: UsuariosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Usuario data)
         {
             try
@@ -47,6 +52,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: UsuariosController/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var data = Crud<Usuario>.GetById(id);
@@ -56,6 +62,7 @@ namespace TuneCast.MVC.Controllers
         // POST: UsuariosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, Usuario data)
         {
             try
@@ -71,7 +78,9 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: UsuariosController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
+
         {
             var data = Crud<Usuario>.GetById(id);
             return View(data);
@@ -80,6 +89,7 @@ namespace TuneCast.MVC.Controllers
         // POST: UsuariosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, Usuario data)
         {
             try

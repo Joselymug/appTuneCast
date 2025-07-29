@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using TuneCastAPIConsumer;
 using TuneCastModelo;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace TuneCast.MVC.Controllers
 {
     public class PagosController : Controller
     {
         // GET: PagosController
+
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult Index()
         {
             var listaPagos = Crud<Pago>.GetAll();
@@ -17,6 +20,8 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PagosController/Details/5
+
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult Details(int id)
         {
             var data = Crud<Pago>.GetById(id);
@@ -24,6 +29,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PagosController/Create 
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult Create(int? planId)
         {
             try
@@ -108,6 +114,7 @@ namespace TuneCast.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = " Cliente, Premium")]
         public async Task<ActionResult> Create(Pago pago, string numeroTarjeta, string fechaExpiracion, string cvv, string metodoPago)
         {
             //OBTENER AUTOMÁTICAMENTE EL USUARIO LOGUEADO
@@ -205,6 +212,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: Confirmación de pago exitoso
+        [Authorize(Roles = " Cliente, Premium")]
         public ActionResult PagoExitoso(decimal monto, string ultimosDigitos)
         {
             ViewBag.Monto = monto;
@@ -213,6 +221,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PagosController/Edit/5
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult Edit(int id)
         {
             var data = Crud<Pago>.GetById(id);
@@ -226,6 +235,7 @@ namespace TuneCast.MVC.Controllers
         // POST: PagosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Cliente, Premium")]
         public ActionResult Edit(int id, Pago data)
         {
             try
@@ -246,6 +256,7 @@ namespace TuneCast.MVC.Controllers
         }
 
         // GET: PagosController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var data = Crud<Pago>.GetById(id);
@@ -259,6 +270,7 @@ namespace TuneCast.MVC.Controllers
         // POST: PagosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id, Pago data)
         {
             try

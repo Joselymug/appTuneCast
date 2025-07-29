@@ -81,16 +81,16 @@ namespace TuneCast.MVC.Controllers
 
             // Aumentar número de reproducciones
             cancion.numeroReproducciones += 1;
-            Crud<Cancion>.Update(id, cancion); 
+            Crud<Cancion>.Update(id, cancion);
 
             return View("Reproducir", cancion);
         }
 
 
 
-    
 
-       // GET: CancionesController/Edit/5
+
+        // GET: CancionesController/Edit/5
         public ActionResult Edit(int id)
         {
             var data = Crud<Cancion>.GetById(id);
@@ -100,7 +100,7 @@ namespace TuneCast.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       
+
         public IActionResult Edit(int id, Cancion data, IFormFile imagen)
         {
             try
@@ -135,7 +135,7 @@ namespace TuneCast.MVC.Controllers
             }
         }
 
-        
+
 
         // GET: CancionesController/Delete/5
         public ActionResult Delete(int id)
@@ -158,6 +158,49 @@ namespace TuneCast.MVC.Controllers
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(data);
+            }
+        }
+
+        // GET: Canciones/AgregarAPlaylist/5
+        public ActionResult AgregarPlaylist(int id)
+        {
+            var cancion = Crud<Cancion>.GetById(id);
+            if (cancion == null)
+                return NotFound();
+
+            var playlists = Crud<Playlist>.GetAll();
+            ViewBag.Playlists = playlists;
+            ViewBag.Cancion = cancion;
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ProcesarAgregarPlaylist(int cancionId, int? playlistId, string nuevaPlaylist)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(nuevaPlaylist))
+                {
+                    // El sistema detecta automáticamente qué usuario está conectado
+                    var usuarioId = HttpContext.Session.GetInt32("UsuarioId") ?? 1;
+
+                    var nuevaPlaylistObj = new Playlist
+                    {
+                        Nombre = nuevaPlaylist,
+                        UsuarioId = usuarioId
+                    };
+                    Crud<Playlist>.Create(nuevaPlaylistObj);
+                }
+
+                TempData["Mensaje"] = "Canción agregada a playlist exitosamente";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("AgregarAPlaylist", new { id = cancionId });
             }
         }
     }

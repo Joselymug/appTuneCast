@@ -1,12 +1,12 @@
-﻿
-@model TuneCastModelo.Cancion
+﻿@model TuneCastModelo.Cancion
 
 @{
     ViewData["Title"] = "Reproducir Canción";
     Layout = null; // Opcional, si quieres que sea pantalla completa sin menú.
 }
+
 @{
-    var rutaPortada = $"/portadas/portada_{Model.Id}.jpg"; 
+    var rutaPortada = $"/portadas/portada_{Model.Id}.jpg";
 }
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
-            background: linear-gradient(135deg, #1e1e1e, #3a0ca3);
+            background-color: #121212; /* Color sólido */
             color: white;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
@@ -28,7 +28,7 @@
 
         .player-container {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: #1f1f1f; /* Color sólido */
             padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);

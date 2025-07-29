@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TuneCastAPIConsumer;
 using TuneCastModelo;
+using System.Linq;
 
 namespace TuneCast.MVC.Controllers
 {
@@ -15,6 +16,10 @@ namespace TuneCast.MVC.Controllers
         {
             // Configura el endpoint de la API para usuarios
             Crud<Usuario>.EndPoint = "https://localhost:7194/api/Usuarios"; // Reemplaza con tu URL real
+            Crud<Cancion>.EndPoint = "https://localhost:7194/api/Canciones";
+            Crud<Suscripcion>.EndPoint = "https://localhost:7194/api/Suscripciones";
+            Crud<Plan>.EndPoint = "https://localhost:7194/api/Planes";
+
         }
         [HttpGet]
         public IActionResult RecuperarPassword()
@@ -45,7 +50,7 @@ namespace TuneCast.MVC.Controllers
                     return View();
                 }
 
-                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
+                var passwordPattern = new Regex(@"^(?=.[A-Z])(?=.[\W]).{8,}$");
                 if (!passwordPattern.IsMatch(newPassword))
                 {
                     ViewData["ErrorMessage"] = "La nueva contraseña debe comenzar con mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.";
@@ -148,7 +153,7 @@ namespace TuneCast.MVC.Controllers
                 }
 
                 // Validar contraseña: al menos una mayúscula, un carácter especial y longitud mínima de 8 caracteres
-                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
+                var passwordPattern = new Regex(@"^(?=.[A-Z])(?=.[\W]).{8,}$");
                 if (!passwordPattern.IsMatch(contraseña))
                 {
                     ViewData["ErrorMessage"] = "La contraseña debe comenzar con una mayúscula, contener al menos un carácter especial y tener al menos 8 caracteres.";
@@ -191,84 +196,320 @@ namespace TuneCast.MVC.Controllers
 
 
 
-        // Acción para mostrar el perfil del usuario
+        [HttpGet]
         public IActionResult Perfil()
         {
-            // Obtenemos el nombre del usuario que está autenticado
-            var userName = User.Identity.Name;
-
-            // Recuperamos el usuario por su nombre (simulando el proceso aquí)
-            var user = GetUserByName(userName);
-
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                // Verificar si el usuario está autenticado
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
 
-            // Asignamos la imagen de perfil y biografía al ViewBag
-            ViewBag.ProfileImage = "/images/default-avatar.jpg";  // Imagen por defecto
-            ViewBag.Biography = "Biografía del artista o cliente";  // Biografía por defecto
+                // Obtener el ID del usuario autenticado
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    TempData["ErrorMessage"] = "Error al obtener información del usuario";
+                    return RedirectToAction("Login", "Account");
+                }
 
-            // Determinamos el rol del usuario
-            if (user.Rol == "Artista")
-            {
-                // Si es un artista, obtenemos las canciones del artista
-                var canciones = GetSongsByArtist(userName);
+                // Obtener el usuario real de la API
+                var usuario = Crud<Usuario>.GetById(userId);
+                if (usuario == null)
+                {
+                    TempData["ErrorMessage"] = "Usuario no encontrado";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                // Obtener canciones del usuario si es artista
+                List<Cancion> canciones = new List<Cancion>();
+                if (usuario.Rol?.ToLower() == "artista")
+                {
+                    try
+                    {
+                        var todasLasCanciones = Crud<Cancion>.GetAll();
+                        canciones = todasLasCanciones?.Where(c => c.UsuarioId == userId).ToList() ?? new List<Cancion>();
+                    }
+                    catch (Exception)
+                    {
+                        canciones = new List<Cancion>();
+                    }
+                }
+
+                // Obtener plan de suscripción si es cliente
+                string planNombre = "Free";
+                if (usuario.Rol?.ToLower() == "cliente")
+                {
+                    try
+                    {
+                        var suscripciones = Crud<Suscripcion>.GetAll();
+                        var suscripcionActiva = suscripciones?.FirstOrDefault(s => s.UsuarioId == userId && s.Activa);
+
+                        if (suscripcionActiva != null)
+                        {
+                            var planes = Crud<Plan>.GetAll();
+                            var plan = planes?.FirstOrDefault(p => p.Id == suscripcionActiva.PlanId);
+                            planNombre = plan?.Nombre ?? "Free";
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        planNombre = "Free";
+                    }
+                }
+
+                // Asignar datos al ViewBag
+                ViewBag.ProfileImage = "/images/default-avatar.jpg";
+                ViewBag.Biography = $"Perfil de {usuario.Nombre}";
                 ViewBag.Canciones = canciones;
+                ViewBag.Plan = planNombre;
+                ViewBag.TotalCanciones = canciones.Count;
+                ViewBag.TotalReproducciones = canciones.Sum(c => c.numeroReproducciones);
+
+                return View(usuario);
             }
-            else if (user.Rol == "Cliente")
+            catch (Exception ex)
             {
-                // Si es un cliente, obtenemos el plan de suscripción
-                var plan = GetSubscriptionPlan(userName); // Obtiene el plan de suscripción del cliente
-                ViewBag.Plan = plan ?? "Free"; // Si no tiene plan, será "Free"
+                TempData["ErrorMessage"] = $"Error al cargar el perfil: {ex.Message}";
+                return RedirectToAction("Index", "Home");
             }
-
-            return View(user);  // Pasa el modelo de usuario para que se muestre
         }
-
-        // Métodos para obtener el usuario, las canciones y el plan de suscripción
-        private Usuario GetUserByName(string userName)
-        {
-            // Recuperar al usuario por su nombre (esto es solo un ejemplo)
-            return new Usuario
-            {
-                Nombre = userName,
-                Rol = "Usuario", // O "Cliente"
-            };
-        }
-
-
-
 
         [HttpPost]
         public IActionResult EditProfileImage(IFormFile profileImage)
         {
-            if (profileImage != null && profileImage.Length > 0)
+            if (!User.Identity.IsAuthenticated)
             {
-                // Define un nombre único para la imagen, por ejemplo con GUID
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(profileImage.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-                // Guarda la imagen en el directorio
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    profileImage.CopyTo(stream);
-                }
-
-                // Actualiza el modelo de usuario con la nueva imagen
-                var userName = User.Identity.Name;
-                var user = GetUserByName(userName);  // Este método obtiene el usuario
-                string ProfileImage = "/images/" + fileName;
-
-                // Redirigir al perfil actualizado
-                return RedirectToAction("Perfil");
+                return RedirectToAction("Login", "Account");
             }
 
-            // Si no hay archivo, regresar al perfil con mensaje de error
-            ModelState.AddModelError("", "No se pudo cargar la imagen");
-            return View("Perfil", User);  // Deberías retornar la vista de perfil
+            if (profileImage != null && profileImage.Length > 0)
+            {
+                try
+                {
+                    // Validar que sea una imagen
+                    var extensionesPermitidas = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    var extension = Path.GetExtension(profileImage.FileName).ToLower();
+
+                    if (!extensionesPermitidas.Contains(extension))
+                    {
+                        TempData["ErrorMessage"] = "Solo se permiten archivos de imagen (JPG, PNG, GIF)";
+                        return RedirectToAction("Perfil");
+                    }
+
+                    // Obtener ID del usuario
+                    var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                    if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                    {
+                        // Crear directorio si no existe
+                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+                        if (!Directory.Exists(uploadsFolder))
+                        {
+                            Directory.CreateDirectory(uploadsFolder);
+                        }
+
+                        // Generar nombre único para la imagen
+                        var fileName = $"user_{userId}{extension}";
+                        var filePath = Path.Combine(uploadsFolder, fileName);
+
+                        // Guardar la imagen
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            profileImage.CopyTo(stream);
+                        }
+
+                        TempData["SuccessMessage"] = "Imagen de perfil actualizada correctamente";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = $"Error al actualizar la imagen: {ex.Message}";
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No se seleccionó ninguna imagen";
+            }
+
+            return RedirectToAction("Perfil");
         }
 
+        [HttpGet]
+        public IActionResult EditarPerfil()
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    TempData["ErrorMessage"] = "Error al obtener información del usuario";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var usuario = Crud<Usuario>.GetById(userId);
+                if (usuario == null)
+                {
+                    TempData["ErrorMessage"] = "Usuario no encontrado";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                return View(usuario);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error al cargar el perfil: {ex.Message}";
+                return RedirectToAction("Perfil", "Account");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarPerfil(string nombre, string email, string palabraClaveRecuperacion)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    TempData["ErrorMessage"] = "Error al obtener información del usuario";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var usuario = Crud<Usuario>.GetById(userId);
+                if (usuario == null)
+                {
+                    TempData["ErrorMessage"] = "Usuario no encontrado";
+                    return RedirectToAction("Login", "Account");
+                }
+
+                // Validaciones básicas
+                if (string.IsNullOrWhiteSpace(nombre))
+                {
+                    TempData["ErrorMessage"] = "El nombre es requerido";
+                    return RedirectToAction("EditarPerfil");
+                }
+
+                if (string.IsNullOrWhiteSpace(email))
+                {
+                    TempData["ErrorMessage"] = "El email es requerido";
+                    return RedirectToAction("EditarPerfil");
+                }
+
+                // Verificar si el email ya existe (si es diferente al actual)
+                if (email != usuario.Email)
+                {
+                    var usuarios = Crud<Usuario>.GetAll();
+                    if (usuarios.Any(u => u.Email == email && u.Id != userId))
+                    {
+                        TempData["ErrorMessage"] = "El correo electrónico ya está registrado por otro usuario";
+                        return RedirectToAction("EditarPerfil");
+                    }
+                }
+
+                // Actualizar datos
+                usuario.Nombre = nombre.Trim();
+                usuario.Email = email.Trim();
+
+                if (!string.IsNullOrWhiteSpace(palabraClaveRecuperacion))
+                {
+                    usuario.PalabraClaveRecuperacion = palabraClaveRecuperacion.Trim();
+                }
+
+                bool success = Crud<Usuario>.Update(userId, usuario);
+
+                if (success)
+                {
+                    TempData["SuccessMessage"] = "Perfil actualizado correctamente";
+                    return RedirectToAction("Perfil");
+                }
+
+                TempData["ErrorMessage"] = "Error al actualizar el perfil";
+                return RedirectToAction("EditarPerfil");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error al actualizar el perfil: {ex.Message}";
+                return RedirectToAction("EditarPerfil");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarPassword(string passwordActual, string nuevaPassword, string confirmarPassword)
+        {
+            try
+            {
+                if (!User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+                if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    TempData["ErrorMessage"] = "Error al obtener información del usuario";
+                    return RedirectToAction("Perfil");
+                }
+
+                var usuario = Crud<Usuario>.GetById(userId);
+                if (usuario == null)
+                {
+                    TempData["ErrorMessage"] = "Usuario no encontrado";
+                    return RedirectToAction("Perfil");
+                }
+
+                // Validar password actual
+                if (usuario.Contraseña != passwordActual)
+                {
+                    TempData["ErrorMessage"] = "La contraseña actual es incorrecta";
+                    return RedirectToAction("Perfil");
+                }
+
+                // Validar nueva password
+                if (nuevaPassword != confirmarPassword)
+                {
+                    TempData["ErrorMessage"] = "Las contraseñas no coinciden";
+                    return RedirectToAction("Perfil");
+                }
+
+                var passwordPattern = new Regex(@"^(?=.*[A-Z])(?=.*[\W]).{8,}$");
+                if (!passwordPattern.IsMatch(nuevaPassword))
+                {
+                    TempData["ErrorMessage"] = "La nueva contraseña debe tener al menos 8 caracteres, una mayúscula y un carácter especial";
+                    return RedirectToAction("Perfil");
+                }
+
+                // Actualizar password
+                usuario.Contraseña = nuevaPassword;
+                bool success = Crud<Usuario>.Update(userId, usuario);
+
+                if (success)
+                {
+                    TempData["SuccessMessage"] = "Contraseña actualizada correctamente";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Error al actualizar la contraseña";
+                }
+
+                return RedirectToAction("Perfil");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error al cambiar la contraseña: {ex.Message}";
+                return RedirectToAction("Perfil");
+            }
+        }
 
         private List<Cancion> GetSongsByArtist(string artistName)
         {

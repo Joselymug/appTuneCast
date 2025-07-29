@@ -10,76 +10,119 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/ValidacionDatos.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/Pagos.css" asp-append-version="true" />}
+    <link rel="stylesheet" href="~/css/Pagos.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+ 
     <link rel="stylesheet" href="~/TuneCast.MVC.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/editar-perfil.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/perfil-editable.css" asp-append-version="true" />
+
+    <!-- Sección para estilos específicos de cada vista -->
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body class="layout-body">
-
     <div class="layout-container">
 
-        <!-- Barra de navegación fija -->
+        <!-- Barra de navegación fija corregida -->
         <header class="layout-header">
-            <nav class="navbar navbar-expand-sm navbar-light bg-dark-purple border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark-purple fixed-top">
                 <div class="container-fluid">
+                    <!-- Logo/Brand -->
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        TuneCast.MVC
+                        <i class="fas fa-music"></i> TuneCast.MVC
                     </a>
 
-                    <input type="text" class="search-bar" placeholder="¿Qué quieres reproducir?">
-                    <div class="user-menu">
-                        <a href="#">Vuelvete Premium</a>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Perfil">Mi Perfil</a>
-                        </li>
-                        <span>|</span>
+                    <!-- Botón para móvil -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                        <ul class="navbar-nav">
-                            <!-- Si el usuario  está autenticado, muestra el nombre y botón de cierre de sesión, si no muestra los botones de register y login -->
+                    <!-- Contenido de navegación -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <!-- Barra de búsqueda centrada -->
+                        <div class="navbar-search mx-auto">
+                            <div class="search-container">
+                                <input type="text" class="search-bar" placeholder="¿Qué quieres reproducir?">
+                                <i class="fas fa-search search-icon"></i>
+                            </div>
+                        </div>
+
+                        <!-- Menú de usuario a la derecha -->
+                        <ul class="navbar-nav ms-auto">
+                            <!-- Enlace Premium -->
+                            <li class="nav-item">
+                                <a class="nav-link premium-link" asp-controller="Planes" asp-action="Index">
+                                    <i class="fas fa-crown"></i> Vuelvete Premium
+                                </a>
+                            </li>
+
+                            <!-- Mi Perfil (solo si está autenticado) -->
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Account" asp-action="Perfil">
+                                        <i class="fas fa-user"></i> Mi Perfil
+                                    </a>
+                                </li>
+                            }
+
+                            <!-- Autenticación -->
                             @if (!User.Identity.IsAuthenticated)
                             {
-
-                                <!-- Enlace para "Registrarse" -->
-                                <a href="@Url.Action("Register", "Account")" class="btn btn-sm btn-outline-primary">
-                                    Registrarse
-                                </a>
-                                <!-- Enlace para "Iniciar sesión" -->
-                                <a href="@Url.Action("Login", "Account")" class="btn btn-sm btn-outline-success">
-                                    Iniciar sesión
-                                </a>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Account" asp-action="Register">
+                                        <i class="fas fa-user-plus"></i> Registrarse
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn-login" asp-controller="Account" asp-action="Login">
+                                        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                                    </a>
+                                </li>
                             }
                             else
                             {
-                                <li class="nav-item"><span class="nav-link">@User.Identity.Name</span> Bienvenido</li>
-                                <li class="nav-item">
-                                    <form asp-controller="Account" asp-action="Logout" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="nav-link btn btn-link">Cerrar sesión</button>
-                                    </form>
+                                <!-- Dropdown de usuario -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle user-dropdown" href="#" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user-circle"></i> @User.Identity.Name
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Account" asp-action="Perfil">
+                                                <i class="fas fa-user"></i> Mi Perfil
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Planes" asp-action="Index">
+                                                <i class="fas fa-crown"></i> Planes
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="dropdown-item logout-btn">
+                                                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </li>
-                                @*  <li class="nav-item"><span class="nav-link">@User.Identity.Name</span></li> *@
-                                @*  
-                                <a href="@Url.Action("Logout", "Account")" class="btn btn-sm btn-outline-primary"> Cerrar sesion</a>
- *@
-
-
-
                             }
                         </ul>
                     </div>
-
-
                 </div>
-
-
-
             </nav>
         </header>
 
-        <!-- Contenido principal -->
+        <!-- Contenido principal con padding superior para navbar fija -->
         <main class="layout-main">
             <div class="content-wrapper">
-                @RenderBody() <!-- Aquí se va a renderizar el contenido de cada vista -->
+                @RenderBody()
             </div>
         </main>
 
@@ -95,6 +138,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Sección para scripts específicos de cada vista -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

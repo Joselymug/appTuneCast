@@ -1,0 +1,119 @@
+﻿@model TuneCastModelo.Usuario
+
+@{
+    ViewData["Title"] = "Editar Perfil";
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/perfil.css">
+    <link rel="stylesheet" href="~/css/editar-perfil.css">
+}
+
+<main class="main-content">
+    <!-- Mensajes de éxito y error -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i> @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="profile-header">
+        <div class="profile-image-container">
+            @{
+                var userImagePath = $"/images/user_{Model.Id}.jpg";
+            }
+            <img src="@userImagePath" alt="Foto de perfil" class="profile-image"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-icon" style="display: none;">👤</div>
+        </div>
+
+        <div class="profile-info">
+            <h1 class="profile-name">Editar Perfil de @Model.Nombre</h1>
+            <div class="profile-role">@Model.Rol</div>
+        </div>
+    </div>
+
+    <!-- Formulario de edición de datos básicos -->
+    <div class="content-section">
+        <div class="section-title">
+            <span>Información Personal</span>
+        </div>
+
+        <form asp-action="EditarPerfil" method="post" class="edit-form">
+            <div class="form-group">
+                <label class="input-label">Nombre de Usuario</label>
+                <input type="text" name="nombre" class="input-field" value="@Model.Nombre" required />
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Correo Electrónico</label>
+                <input type="email" name="email" class="input-field" value="@Model.Email" required />
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Palabra Clave de Recuperación</label>
+                <input type="text" name="palabraClaveRecuperacion" class="input-field"
+                       value="@Model.PalabraClaveRecuperacion"
+                       placeholder="Actualizar palabra clave (opcional)" />
+                <small class="form-text">Deje en blanco si no desea cambiarla</small>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a asp-action="Perfil" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Formulario de cambio de contraseña -->
+    <div class="content-section">
+        <div class="section-title">
+            <span>Cambiar Contraseña</span>
+        </div>
+
+        <form asp-action="CambiarPassword" method="post" class="edit-form">
+            <div class="form-group">
+                <label class="input-label">Contraseña Actual</label>
+                <input type="password" name="passwordActual" class="input-field" required />
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Nueva Contraseña</label>
+                <input type="password" name="nuevaPassword" class="input-field"
+                       pattern="^(?=.*[A-Z])(?=.*[\W]).{8,}$" required />
+                <small class="form-text">Mínimo 8 caracteres, una mayúscula y un carácter especial</small>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Confirmar Nueva Contraseña</label>
+                <input type="password" name="confirmarPassword" class="input-field" required />
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-warning">
+                    <i class="fas fa-key"></i> Cambiar Contraseña
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Volver al perfil -->
+    <div style="margin-top: 2rem;">
+        <a asp-controller="Account" asp-action="Perfil" class="btn btn-secondary">
+            ← Volver al Perfil
+        </a>
+    </div>
+</main>
